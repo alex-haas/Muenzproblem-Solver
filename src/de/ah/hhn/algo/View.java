@@ -48,7 +48,7 @@ public class View extends JFrame implements Observer{
 		final JLabel 		coinInputLabel = new JLabel("Münzen:");
 		final JTextField 	coinInputField = new JTextField("2 3 10 77",20);
 		final JLabel		moneyInputLabel = new JLabel("Betrag:");
-		final JTextField 	moneyInputField = new JTextField("55",8);
+		final JTextField 	moneyInputField = new JTextField("5",8);
 		final JButton 		startButton = new JButton("Starten");
 		
 		startButton.addActionListener(new ActionListener() {
@@ -157,8 +157,8 @@ public class View extends JFrame implements Observer{
 				for(int i=0; i<matrix.length; i++) g.drawString(""+i, (i+1)*cellSize+4, cellSize-4);
 				
 				g.setColor(Color.BLACK);
-				g.drawLine(0, cellSize, (matrix.length+1)*cellSize, cellSize);
-				g.drawLine(cellSize, 0, cellSize, (matrix[0].length+1)*cellSize);
+				g.drawLine(0, cellSize-1, (matrix.length+1)*cellSize, cellSize-1);
+				g.drawLine(cellSize-1, 0, cellSize-1, (matrix[0].length+1)*cellSize);
 				
 				// Translate and draw the Matrix
 				g.translate(cellSize, cellSize);
