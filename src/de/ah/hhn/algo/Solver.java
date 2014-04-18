@@ -78,6 +78,10 @@ public class Solver extends Observable{
 		return this.matrix;
 	}
 	
+	public int[] getCoins() {
+		return this.coins;
+	}
+	
 	public void printMatrix(){
 		System.out.println("### Printing Matrix!");
 		for(int y=0; y<matrix[0].length; y++){
