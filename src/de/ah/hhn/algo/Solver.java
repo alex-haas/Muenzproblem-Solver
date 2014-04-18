@@ -1,6 +1,9 @@
 package de.ah.hhn.algo;
 
-public class Solver {
+import java.awt.Point;
+import java.util.Observable;
+
+public class Solver extends Observable{
 
 	private int[] coins;
 	private int money;
@@ -30,19 +33,21 @@ public class Solver {
 		}
 		
 		// Calculate the Value and set it to the matrix
-		if(this.currY != this.coins.length-1){
-			this.matrix[this.currX][this.currY] = matrix[this.currX][this.currY+1];
-		}
-		if(this.currX <= money-coins[this.currY]){
-			this.matrix[this.currX][this.currY] += matrix[this.currX+this.coins[this.currY]][this.currY];
-		}
+		Point source1Pos = this.getSource1Position();
+		Point source2Pos = this.getSource2Position();
+		if(source1Pos != null) this.matrix[this.currX][this.currY] += matrix[source1Pos.x][source1Pos.y];
+		if(source2Pos != null) this.matrix[this.currX][this.currY] += matrix[source2Pos.x][source2Pos.y];
+
+		this.setChanged();
+		this.notifyObservers();
 		return true;
 	}
 	
 	public boolean back(){
 		// Calculate the new position
 		if(this.currX == money && this.currY == coins.length-1) return false;
-		this.matrix[this.currX][this.currY] = 0;	// Set the current position as not calculated and calculate next position
+		// Set the current position as not calculated and calculate next position
+		this.matrix[this.currX][this.currY] = 0;	
 		if(this.currX == money){
 			this.currX = 0;
 			this.currY++;
@@ -50,15 +55,27 @@ public class Solver {
 			this.currX++;
 		}
 
+		this.setChanged();
+		this.notifyObservers();
 		return true;
 	}
 	
-	public int getCurrentX(){
-		return this.currX;
+	public Point getCurrentPosition(){
+		return new Point(this.currX, this.currY);
 	}
 	
-	public int getCurrentY(){
-		return this.currY;
+	public Point getSource1Position(){
+		if(this.currY == this.coins.length-1) return null;
+		return new Point(this.currX, this.currY+1);
+	}
+	
+	public Point getSource2Position(){
+		if(this.currX > money-coins[this.currY]) return null;
+		return new Point(this.currX+this.coins[this.currY], this.currY);
+	}
+	
+	public int[][] getMatrix(){
+		return this.matrix;
 	}
 	
 	public void printMatrix(){
