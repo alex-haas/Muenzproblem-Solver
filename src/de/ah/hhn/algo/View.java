@@ -15,6 +15,7 @@ import java.util.Observer;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -86,6 +87,10 @@ public class View extends JFrame implements Observer{
 		nextButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				if(solver == null){
+					showStartFirstMessage();
+					return;
+				}
 				delegate.next();
 			}
 		});
@@ -93,6 +98,10 @@ public class View extends JFrame implements Observer{
 		backButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				if(solver == null){
+					showStartFirstMessage();
+					return;
+				}
 				delegate.back();
 			}
 		});
@@ -102,6 +111,10 @@ public class View extends JFrame implements Observer{
 		controlPanel.add(backButton);
 		controlPanel.add(nextButton);
 		return controlPanel;
+	}
+	
+	private void showStartFirstMessage(){
+		JOptionPane.showMessageDialog(View.this, "Starten Sie erst die Runde.", "Start benötigt", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	public void setDelegate(MuenzDelegate delegate){
